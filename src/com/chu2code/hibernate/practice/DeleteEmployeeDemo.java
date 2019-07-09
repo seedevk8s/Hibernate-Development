@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class CreateEmployeeDemo {
+public class DeleteEmployeeDemo {
 
 	public static void main(String[] args) {
 
@@ -18,16 +18,20 @@ public class CreateEmployeeDemo {
 		Session session = factory.getCurrentSession();
 		
 		try {
-			// create a employee object 
-			System.out.println("Creating new employee object...");
-			Employee tempEmployee = new Employee("Anup", "Joshi", "Acme Inc");
-			
-			// start a transaction
+			int employeeId = 1;
+						
+			// now get a mew session and start transaction
+			session = factory.getCurrentSession();
 			session.beginTransaction();
 			
-			// save the employee object
-			System.out.println("Saving the employee...");
-			session.save(tempEmployee);
+			// retrieve employee based on the id: primary key
+			System.out.println("\nGetting employee with id: " + employeeId);		
+			
+			Employee myEmployee = session.get(Employee.class, employeeId);
+			
+			// delete the employee
+			System.out.println("Deleting employee: " + myEmployee);
+			session.delete(myEmployee);
 			
 			// commit transaction
 			session.getTransaction().commit();
